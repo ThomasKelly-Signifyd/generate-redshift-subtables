@@ -24,7 +24,7 @@ def getSchemas():
     print(sumsList)
 
     file = open("redshiftTables_Schemas.csv","w")
-    lines = ["Name,Current Size (GB),Notes - complete if schema still required\n"]
+    lines = ["Name,Current Size (GB)\n"]
     totalSize = 0
     for i in range(len(schemaList)):
         sizeInGB = format((sumsList[i]/1000), '.2f')
