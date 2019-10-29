@@ -62,9 +62,10 @@ def getTablesTemp():
     lines = ["Schema,Table,Current Size (GB),Notes - complete if schema still required\n"]
     totalSize = 0
     for i in range(len(tables_temp)):
-        sizeInGB = format((sizes_temp[i]/1000), '.2f')
-        totalSize += sizes_temp[i]/1000
-        lines.append(schema_temp[i] + "," + tables_temp[i] + "," + sizeInGB + "\n")
+        if table_not_required(tables_temp[i]):
+            sizeInGB = format((sizes_temp[i]/1000), '.2f')
+            totalSize += sizes_temp[i]/1000
+            lines.append(schema_temp[i] + "," + tables_temp[i] + "," + sizeInGB + "\n")
     lines.append(",," + format(totalSize, '.2f') + "\n")
 
     file.writelines(lines)
@@ -97,9 +98,10 @@ def getTablesTimestamps():
     lines = ["Schema,Table,Current Size (GB),Notes - complete if schema still required\n"]
     totalSize = 0
     for i in range(len(tables_timestamp)):
-        sizeInGB = format((sizes_timestamp[i]/1000), '.2f')
-        totalSize += sizes_timestamp[i]/1000
-        lines.append(schema_timestamp[i] + "," + tables_timestamp[i] + "," + sizeInGB + "\n")
+        if table_not_required(tables_timestamp[i]):
+            sizeInGB = format((sizes_timestamp[i]/1000), '.2f')
+            totalSize += sizes_timestamp[i]/1000
+            lines.append(schema_timestamp[i] + "," + tables_timestamp[i] + "," + sizeInGB + "\n")
     lines.append(",," + format(totalSize, '.2f') + "\n")
 
     file.writelines(lines)
@@ -132,15 +134,42 @@ def getTablesTest():
     lines = ["Schema,Table,Current Size (GB),Notes - complete if schema still required\n"]
     totalSize = 0
     for i in range(len(tables_test)):
-        sizeInGB = format((sizes_test[i]/1000), '.2f')
-        totalSize += sizes_test[i]/1000
-        lines.append(schema_test[i] + "," + tables_test[i] + "," + sizeInGB + "\n")
+        if table_not_required(tables_test[i]):
+            sizeInGB = format((sizes_test[i]/1000), '.2f')
+            totalSize += sizes_test[i]/1000
+            lines.append(schema_test[i] + "," + tables_test[i] + "," + sizeInGB + "\n")
     lines.append(",," + format(totalSize, '.2f') + "\n")
 
     file.writelines(lines)
     file.close()
     print("Successfully created test csv file")
 
+
+def table_not_required(table_to_check):
+    if "recurly_invoice_temp" in table_to_check:
+        return False
+    elif "recurly_transaction_temp" in table_to_check:
+        return False
+    elif "blacklist_whitelist_email_temp" in table_to_check:
+        return False
+    elif "blacklist_whitelist_delivery_address_temp" in table_to_check:
+        return False
+    elif "ebay_score_file_20190714" in table_to_check:
+        return False
+    elif "temp_ac_walmartmx_2019chargebacks_07312019" in table_to_check:
+        return False
+    elif "temp_ac_samsung_dr_decisions_cons_until_05062019" in table_to_check:
+        return False
+    elif "temp_ac_ssense_perf_2018_uniqueorder" in table_to_check:
+        return False
+    elif "temp_ac_walmartmx_2019chargebacks_07312019" in table_to_check:
+        return False
+    elif "tmp_phones_with_chargebacks_2016" in table_to_check:
+        return False
+    elif "tmp_emails_with_chargebacks_2016" in table_to_check:
+        return False
+    else:
+        return True
 
 getSchemas()
 getTablesTemp()
